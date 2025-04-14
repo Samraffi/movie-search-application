@@ -1,69 +1,97 @@
+import { Movie } from '../../types/movie';
+import { getImageUrl } from '../../services/movieService/config';
 import MovieRating from './MovieRating';
 
 interface MovieDetailsProps {
-  movie?: {
-    title: string;
-    overview: string;
-    posterPath: string;
-    rating: number;
-    releaseDate: string;
-    runtime?: number;
-    genres?: string[];
-    director?: string;
-    cast?: string[];
-  };
+  movie: Movie;
 }
 
-const MovieDetails = ({ movie }: MovieDetailsProps) => (
-  <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-    <div className="relative h-96 bg-gray-100">
-      {/* Movie backdrop will go here */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-      <div className="absolute bottom-0 p-6 text-white">
-        <h1 className="text-4xl font-bold mb-2">
-          {movie?.title || 'Movie Title'}
-        </h1>
-        {movie?.rating && <MovieRating rating={movie.rating} />}
-      </div>
-    </div>
-
-    <div className="p-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Poster and metadata */}
-        <div>
-          <div className="bg-gray-200 rounded-lg aspect-[2/3] mb-4">
-            {/* Movie poster will go here */}
-          </div>
-          <div className="space-y-2 text-sm">
-            <p><strong>Release Date:</strong> {movie?.releaseDate || 'Unknown'}</p>
-            <p><strong>Runtime:</strong> {movie?.runtime ? `${movie.runtime} min` : 'Unknown'}</p>
-            <p><strong>Genres:</strong> {movie?.genres?.join(', ') || 'Unknown'}</p>
+const MovieDetails = ({ movie }: MovieDetailsProps) => {
+  return (
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      {/* Movie Header with Backdrop */}
+      <div className="relative h-64 md:h-96 bg-gray-900">
+        {movie.backdropPath && (
+          <img
+            src={getImageUrl(movie.backdropPath, 'original')}
+            alt={movie.title}
+            className="w-full h-full object-cover opacity-50"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">
+            {movie.title}
+          </h1>
+          <div className="flex items-center space-x-4">
+            <MovieRating rating={movie.rating} />
+            <span className="text-gray-300">
+              {new Date(movie.releaseDate).getFullYear()}
+            </span>
+            {movie.runtime && (
+              <span className="text-gray-300">
+                {movie.runtime} min
+              </span>
+            )}
           </div>
         </div>
+      </div>
 
-        {/* Overview and cast */}
-        <div className="md:col-span-2 space-y-6">
-          <section>
-            <h2 className="text-2xl font-bold mb-4">Overview</h2>
-            <p className="text-gray-700">
-              {movie?.overview || 'No overview available'}
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold mb-4">Cast</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {movie?.cast?.map((actor, index) => (
-                <div key={index} className="text-gray-700">
-                  {actor}
-                </div>
-              )) || 'Cast information not available'}
+      {/* Movie Content */}
+      <div className="p-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Poster and Metadata */}
+          <div>
+            <div className="rounded-lg overflow-hidden shadow-lg mb-4">
+              <img
+                src={getImageUrl(movie.posterPath, 'w500')}
+                alt={movie.title}
+                className="w-full"
+              />
             </div>
-          </section>
+            {movie.genres && movie.genres.length > 0 && (
+              <div className="mb-4">
+                <h3 className="font-bold text-gray-700 mb-2">Genres</h3>
+                <div className="flex flex-wrap gap-2">
+                  {movie.genres.map((genre, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700"
+                    >
+                      {genre}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Overview and Details */}
+          <div className="md:col-span-2">
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">Overview</h2>
+              <p className="text-gray-700 leading-relaxed">
+                {movie.overview}
+              </p>
+            </section>
+
+            {movie.cast && movie.cast.length > 0 && (
+              <section>
+                <h2 className="text-2xl font-bold mb-4">Cast</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {movie.cast.map((actor, index) => (
+                    <div key={index} className="text-gray-700">
+                      {actor}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default MovieDetails;

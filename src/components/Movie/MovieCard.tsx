@@ -1,34 +1,45 @@
+import { Link } from 'react-router-dom';
+import { Movie } from '../../types/movie';
+import { getImageUrl } from '../../services/movieService/config';
+import MovieRating from './MovieRating';
+
 interface MovieCardProps {
-  movie?: {
-    title: string;
-    overview: string;
-    posterPath: string;
-    rating: number;
-    releaseDate: string;
-  };
+  movie: Movie;
 }
 
-const MovieCard = ({ movie }: MovieCardProps) => (
-  <div className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1 duration-300">
-    <div className="relative h-56 overflow-hidden">
-      {/* Movie poster will go here */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-        <div className="flex items-center space-x-1 text-white">
-          {/* Rating will go here */}
+const MovieCard = ({ movie }: MovieCardProps) => {
+  return (
+    <Link 
+      to={`/movies/${movie.id}`}
+      className="movie-card block bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg"
+    >
+      <div className="relative">
+        <div className="movie-poster">
+          <img
+            src={getImageUrl(movie.posterPath, 'w500')}
+            alt={movie.title}
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+          <MovieRating rating={movie.rating} />
         </div>
       </div>
-    </div>
-    <div className="p-4">
-      <div className="flex justify-between items-start mb-2">
-        <h3 className="font-bold text-xl text-gray-800 hover:text-cyan-600 transition-colors">
-          {movie?.title || 'Movie Title'}
+      
+      <div className="p-4">
+        <h3 className="font-bold text-lg mb-2 line-clamp-1" title={movie.title}>
+          {movie.title}
         </h3>
+        <p className="text-gray-600 text-sm line-clamp-2" title={movie.overview}>
+          {movie.overview}
+        </p>
+        <div className="mt-2 text-sm text-gray-500">
+          {new Date(movie.releaseDate).getFullYear()}
+        </div>
       </div>
-      <p className="text-gray-600 text-sm line-clamp-2">
-        {movie?.overview || 'Movie description will go here'}
-      </p>
-    </div>
-  </div>
-);
+    </Link>
+  );
+};
 
 export default MovieCard;

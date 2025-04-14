@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Movie, MovieSearchParams } from '../types/movie';
 import { movieApi } from '../services/movieService/api';
 
@@ -10,7 +10,7 @@ export const useMovies = () => {
   const [hasMore, setHasMore] = useState(true);
 
   // Load popular movies
-  const loadPopularMovies = async (pageNum: number = 1) => {
+  const loadPopularMovies = useCallback(async (pageNum: number = 1) => {
     try {
       setLoading(true);
       setError(null);
@@ -26,10 +26,10 @@ export const useMovies = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Search movies
-  const searchMovies = async (params: MovieSearchParams) => {
+  const searchMovies = useCallback(async (params: MovieSearchParams) => {
     try {
       setLoading(true);
       setError(null);
@@ -45,14 +45,14 @@ export const useMovies = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Load more movies (for infinite scroll)
-  const loadMore = () => {
+  const loadMore = useCallback(() => {
     if (!loading && hasMore) {
       loadPopularMovies(page + 1);
     }
-  };
+  }, [loading, hasMore, page, loadPopularMovies]);
 
   return {
     movies,

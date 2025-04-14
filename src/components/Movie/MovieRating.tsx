@@ -1,29 +1,24 @@
 interface MovieRatingProps {
   rating: number;
-  reviews?: number;
+  showText?: boolean;
 }
 
-const MovieRating = ({ rating, reviews }: MovieRatingProps) => {
-  const stars = Math.round(rating / 2); // Convert 10-point scale to 5-point
-
+const MovieRating = ({ rating, showText = true }: MovieRatingProps) => {
+  // Convert rating from 0-10 scale to 0-5 stars
+  const stars = Math.round((rating / 2));
+  
   return (
-    <div className="flex items-center space-x-2">
-      <div className="flex">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <span
-            key={index}
-            className={`text-lg ${
-              index < stars ? 'text-yellow-400' : 'text-gray-300'
-            }`}
-          >
-            ★
-          </span>
-        ))}
-      </div>
-      <span className="text-sm">
-        {rating.toFixed(1)}
-        {reviews !== undefined && ` (${reviews} reviews)`}
-      </span>
+    <div className="flex items-center space-x-1 text-yellow-400">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span key={star} className="text-lg">
+          {star <= stars ? '★' : '☆'}
+        </span>
+      ))}
+      {showText && (
+        <span className="ml-2 text-white text-sm">
+          {rating.toFixed(1)}
+        </span>
+      )}
     </div>
   );
 };

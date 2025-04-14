@@ -1,34 +1,64 @@
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { movieApi } from '../services/movieService/api';
 import MovieDetails from '../components/Movie/MovieDetails';
-import { Movie } from '../types/movie';
+import Alert from '../components/Alert';
 
 const MoviePage = () => {
-  // This is just a placeholder movie object
-  const mockMovie: Movie = {
-    id: 1,
-    title: 'Movie Title',
-    overview: 'Movie description will be here...',
-    posterPath: '/placeholder.jpg',
-    releaseDate: '2024-01-01',
-    rating: 8.5,
-    runtime: 120,
-    genres: ['Action', 'Adventure'],
-    director: 'Director Name',
-    cast: ['Actor 1', 'Actor 2', 'Actor 3']
-  };
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [movie, setMovie] = useState<any>(null);
+
+  useEffect(() => {
+    const loadMovie = async () => {
+      if (!id) {
+        navigate('/movies');
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await movieApi.getMovieDetails(Number(id));
+        setMovie(data);
+      } catch (err) {
+        console.error('Failed to load movie:', err);
+        setError('Failed to load movie details. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadMovie();
+  }, [id, navigate]);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
+          <div className="h-64 bg-gray-200 rounded mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <MovieDetails movie={mockMovie} />
-      
-      <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-6">Similar Movies</h2>
-        {/* MovieGrid component will be added here later */}
-      </div>
-      
-      <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-6">Movie Reviews</h2>
-        {/* Reviews component will be added here later */}
-      </div>
+      {error ? (
+        <Alert
+          isOpen={true}
+          message={error}
+          type="error"
+          onClose={() => setError(null)}
+        />
+      ) : movie ? (
+        <MovieDetails movie={movie} />
+      ) : null}
     </div>
   );
 };
