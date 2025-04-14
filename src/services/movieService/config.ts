@@ -1,6 +1,8 @@
+import 'dotenv/config';
+
 export const API_CONFIG = {
   BASE_URL: 'https://api.themoviedb.org/3',
-  API_KEY: 'd8c2af459c85a0dc3049292938c8adbb', // Will be added from environment variables
+  API_KEY: process.env.TMDB_API_KEY, // Will be added from environment variables
   IMAGE_BASE_URL: 'https://image.tmdb.org/t/p/',
   POSTER_SIZE: {
     SMALL: 'w185',
