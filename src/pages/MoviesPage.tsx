@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import MovieGrid from '../components/Movie/MovieGrid';
-import MovieSearch from '../components/Movie/MovieSearch';
+import Grid from '../components/Movie/Grid';
+import Search from '../components/Movie/Search';
 import { MovieSearchParams } from '../types/movie';
 import { useMovies } from '../hooks/useMovies';
 import Alert from '../components/Alert';
@@ -46,7 +46,7 @@ const MoviesPage = () => {
         </Link>
       </div>
 
-      <MovieSearch 
+      <Search 
         onSearch={handleSearch}
         loading={loading}
       />
@@ -62,7 +62,7 @@ const MoviesPage = () => {
         </div>
       )}
 
-      <MovieGrid 
+      <Grid 
         movies={movies}
         loading={loading}
         error={error}

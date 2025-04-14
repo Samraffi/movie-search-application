@@ -1,9 +1,9 @@
-interface MovieRatingProps {
+interface RatingProps {
   rating: number;
   showText?: boolean;
 }
 
-const MovieRating = ({ rating, showText = true }: MovieRatingProps) => {
+const Rating = ({ rating, showText = true }: RatingProps) => {
   // Convert rating from 0-10 scale to 0-5 stars
   const stars = Math.round((rating / 2));
   
@@ -23,4 +23,4 @@ const MovieRating = ({ rating, showText = true }: MovieRatingProps) => {
   );
 };
 
-export default MovieRating;
+export default Rating;

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
-import MovieGrid from '../components/Movie/MovieGrid';
-import MovieSearch from '../components/Movie/MovieSearch';
+import Grid from '../components/Movie/Grid';
+import Search from '../components/Movie/Search';
 import { useMovies } from '../hooks/useMovies';
 import Alert from '../components/Alert';
 
@@ -31,7 +31,7 @@ const HomePage = () => {
       
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto mb-12">
-          <MovieSearch 
+          <Search 
             onSearch={searchMovies}
             loading={loading}
           />
@@ -41,7 +41,7 @@ const HomePage = () => {
           {loading ? 'Loading movies...' : 'Popular Movies'}
         </h2>
 
-        <MovieGrid
+        <Grid
           movies={movies.slice(0, 8)} // Show only first 8 movies on homepage
           loading={loading}
           error={error}

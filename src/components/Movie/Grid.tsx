@@ -1,13 +1,13 @@
 import { Movie } from '../../types/movie';
-import MovieCard from './MovieCard';
+import Card from './Card';
 
-export interface MovieGridProps {
+export interface GridProps {
   movies: Movie[];
   loading?: boolean;
   error?: string | null;
 }
 
-const MovieGrid = ({ movies, loading = false, error = null }: MovieGridProps) => {
+const Grid = ({ movies, loading = false, error = null }: GridProps) => {
   const renderLoadingSkeletons = () => {
     return Array(8).fill(null).map((_, index) => (
       <div key={`skeleton-${index}`} className="bg-white rounded-lg overflow-hidden shadow-md animate-pulse">
@@ -47,7 +47,7 @@ const MovieGrid = ({ movies, loading = false, error = null }: MovieGridProps) =>
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {movies.map((movie) => (
-        <MovieCard 
+        <Card
           key={movie.id} 
           movie={movie}
         />
@@ -56,4 +56,4 @@ const MovieGrid = ({ movies, loading = false, error = null }: MovieGridProps) =>
   );
 };
 
-export default MovieGrid;
+export default Grid;

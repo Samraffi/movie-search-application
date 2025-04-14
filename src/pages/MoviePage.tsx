@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { movieApi } from '../services/movieService/api';
-import MovieDetails from '../components/Movie/MovieDetails';
+import Details from '../components/Movie/Details';
 import Alert from '../components/Alert';
 
 const MoviePage = () => {
@@ -57,7 +57,7 @@ const MoviePage = () => {
           onClose={() => setError(null)}
         />
       ) : movie ? (
-        <MovieDetails movie={movie} />
+        <Details movie={movie} />
       ) : null}
     </div>
   );

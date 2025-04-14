@@ -1,12 +1,12 @@
 import { Movie } from '../../types/movie';
 import { getImageUrl } from '../../services/movieService/config';
-import MovieRating from './MovieRating';
+import Rating from './Rating';
 
-interface MovieDetailsProps {
+interface DetailsProps {
   movie: Movie;
 }
 
-const MovieDetails = ({ movie }: MovieDetailsProps) => {
+const Details = ({ movie }: DetailsProps) => {
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
       {/* Movie Header with Backdrop */}
@@ -24,7 +24,7 @@ const MovieDetails = ({ movie }: MovieDetailsProps) => {
             {movie.title}
           </h1>
           <div className="flex items-center space-x-4">
-            <MovieRating rating={movie.rating} />
+            <Rating rating={movie.rating} />
             <span className="text-gray-300">
               {new Date(movie.releaseDate).getFullYear()}
             </span>
@@ -94,4 +94,4 @@ const MovieDetails = ({ movie }: MovieDetailsProps) => {
   );
 };
 
-export default MovieDetails;
+export default Details;

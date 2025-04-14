@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { Movie } from '../../types/movie';
 import { getImageUrl } from '../../services/movieService/config';
-import MovieRating from './MovieRating';
+import Rating from './Rating';
 
-interface MovieCardProps {
+interface CardProps {
   movie: Movie;
 }
 
-const MovieCard = ({ movie }: MovieCardProps) => {
+const Card = ({ movie }: CardProps) => {
   return (
     <Link 
       to={`/movies/${movie.id}`}
@@ -23,7 +23,7 @@ const MovieCard = ({ movie }: MovieCardProps) => {
           />
         </div>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-          <MovieRating rating={movie.rating} />
+          <Rating rating={movie.rating} />
         </div>
       </div>
       
@@ -42,4 +42,4 @@ const MovieCard = ({ movie }: MovieCardProps) => {
   );
 };
 
-export default MovieCard;
+export default Card;

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { MovieSearchParams } from '../../types/movie';
 
-interface MovieSearchProps {
+interface SearchProps {
   onSearch: (params: MovieSearchParams) => void;
   loading?: boolean;
 }
 
-const MovieSearch = ({ onSearch, loading = false }: MovieSearchProps) => {
+const Search = ({ onSearch, loading = false }: SearchProps) => {
   const [query, setQuery] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -46,4 +46,4 @@ const MovieSearch = ({ onSearch, loading = false }: MovieSearchProps) => {
   );
 };
 
-export default MovieSearch;
+export default Search;
